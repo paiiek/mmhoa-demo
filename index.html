@@ -1,29 +1,112 @@
-<!doctype html><html lang="en"><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ICASSP Demo — Text-Guided Spatial Audio</title>
-<style>
-body{font-family:sans-serif;max-width:900px;margin:40px auto;line-height:1.6}
-audio,video{width:100%} section{border:1px solid #ddd;border-radius:12px;padding:16px;margin:16px 0}
-.caption{color:#666;font-size:.9em}
-</style>
-<h1>Text-Guided Spatial Audio — Demo</h1>
-<p>Headphones recommended. Use binaural/stereo for in-browser playback.</p>
-<section>
-  <h2>Audio (Binaural)</h2>
-  <audio controls>
-    <source src="assets/audio/binaural_demo.wav" type="audio/wav">
-    <source src="assets/audio/binaural_demo.mp3" type="audio/mpeg">
-  </audio>
-  <div class="caption">Mono → HOA3 → Binaural decoding</div>
-</section>
-<section>
-  <h2>Video</h2>
-  <video controls poster="assets/video/poster.jpg">
-    <source src="assets/video/demo.mp4" type="video/mp4">
-  </video>
-</section>
-<section>
-  <h2>Downloads</h2>
-  <a href="assets/audio/hoa16_ambix.wav" download>HOA (16-ch AMBIX WAV)</a>
-</section>
-<footer><p style="color:#666">Last updated: 2025-09-15</p></footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ICASSP Demo — Text‑Guided Spatial Audio (Mono → HOA/Binaural)</title>
+  <meta name="description" content="Demo page for text‑guided spatial audio control. Includes audio (binaural/stereo), video, and brief technical summary." />
+  <style>
+    :root {
+      --fg: #111;
+      --bg: #fff;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #111827;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg:#e5e7eb; --bg:#0b0c0f; --muted:#9ca3af; --line:#1f2937; --accent:#f3f4f6; }
+    }
+    html, body { height: 100%; }
+    body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; color: var(--fg); background: var(--bg); }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+    header { margin-bottom: 20px; }
+    h1 { font-size: clamp(1.6rem, 1.2rem + 2.2vw, 2.4rem); line-height: 1.15; margin: 0 0 8px; }
+    .sub { color: var(--muted); font-size: 0.98rem; }
+    .note { background: rgba(125,125,125,0.06); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; font-size: 0.95rem; margin: 16px 0 8px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 18px 0 8px; }
+    @media (min-width: 880px) { .grid { grid-template-columns: 1fr 1fr; } }
+    section { border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+    section h2 { font-size: 1.15rem; margin: 0 0 10px; }
+    section p { margin: 8px 0; }
+    audio, video { width: 100%; height: auto; outline: none; border-radius: 12px; }
+    .caption { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+    .files { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border:1px solid var(--line); border-radius:12px; text-decoration:none; color:var(--fg); font-size:0.95rem; }
+    .btn:hover { border-color: var(--accent); }
+    .list { padding-left: 18px; }
+    footer { margin-top: 36px; color: var(--muted); font-size: 0.9rem; }
+    code { background: rgba(125,125,125,0.12); padding: 2px 6px; border-radius: 6px; }
+  </style>
+  <script>
+    // Ensure only one <audio> plays at a time
+    document.addEventListener('play', function(e){
+      const audios = document.querySelectorAll('audio');
+      for (const a of audios) if (a !== e.target) a.pause();
+    }, true);
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Text‑Guided Spatial Audio — ICASSP Demo</h1>
+      <div class="sub">Demo for: <em>Automatic Spatial Audio Control from Text / Pose</em> · ACN/SN3D · 48 kHz</div>
+      <div class="note">Headphones recommended. For browser playback, use the binaural or stereo versions. The raw HOA (16‑ch AMBIX) is provided as a downloadable file.</div>
+    </header>
+
+    <div class="grid">
+      <section>
+        <h2>Audio Examples</h2>
+        <p>Binaural (stereo, headphones):</p>
+        <audio controls preload="metadata">
+          <source src="assets/audio/binaural_demo.wav" type="audio/wav" />
+          <source src="assets/audio/binaural_demo.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        <div class="caption">Mono → HOA3 → Binaural decoding (SOFA/HRTF). 48 kHz.</div>
+
+        <p style="margin-top:14px;">Stereo downmix:</p>
+        <audio controls preload="metadata">
+          <source src="assets/audio/stereo_demo.wav" type="audio/wav" />
+          <source src="assets/audio/stereo_demo.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        <div class="caption">For quick inspection on laptop speakers.</div>
+
+        <div class="files">
+          <a class="btn" href="assets/audio/hoa16_ambix.wav" download>Download HOA (16‑ch AMBIX WAV)</a>
+          <a class="btn" href="assets/audio/mono_input.wav" download>Download Input Mono</a>
+        </div>
+      </section>
+
+      <section>
+        <h2>Video (with Binaural Audio)</h2>
+        <video controls preload="metadata" poster="assets/video/poster.jpg">
+          <source src="assets/video/demo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="caption">Visualization of source motion & text‑to‑parameter control.</div>
+      </section>
+    </div>
+
+    <section style="margin-top:24px;">
+      <h2>Technical Summary</h2>
+      <ul class="list">
+        <li><strong>Input</strong>: dry mono audio (+ optional pose/motion or text prompts).</li>
+        <li><strong>Output</strong>: 3rd‑order Ambisonics (16 ch, ACN/SN3D) + stereo + binaural.</li>
+        <li><strong>Control</strong>: text → spatial parameter mapping (azimuth/elevation/spread/wet gain, etc.).</li>
+        <li><strong>Rendering</strong>: binaural with SOFA HRTF; stereo downmix for speakers.</li>
+      </ul>
+      <p class="caption">Replace the sample file paths in <code>assets/audio</code> and <code>assets/video</code> with your exports.</p>
+    </section>
+
+    <section style="margin-top:24px;">
+      <h2>How to Cite</h2>
+      <p>“Your Paper Title.” <em>ICASSP 2026</em>. Authors: A, B, C, <em>et al.</em></p>
+    </section>
+
+    <footer>
+      <div>Contact: your.email@domain · Lab/Group · Last updated: 2025‑09‑15</div>
+    </footer>
+  </div>
+</body>
+</html>
